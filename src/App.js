@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, } from 'react-router-dom';
+import { Store } from './pages/Store';
 
-function App() {
+import { ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material'
+import theme from './themes/theme';
+
+import { ContextProvider } from './context/context'
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <ContextProvider>
+        <ThemeProvider theme={theme} >
+            <CssBaseline />
+            <Router>
+              <Routes>
+                <Route path='/store' element={<Store />} />
+                {/* <Route path='*' element={<NotFound />} /> */}
+              </Routes>
+            </Router>
+        </ThemeProvider>
+      </ContextProvider>
+    </>
+  )
 }
 
-export default App;
+export default App
