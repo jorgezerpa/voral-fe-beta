@@ -28,31 +28,25 @@ const places = [
 ]
 
 export const Map = () => {
-  const { setClientInfo, clientInfo } = useContext(Context)
+  const { handleAddressInfo } = useContext(Context)
   const [map, setMap] = useState(null)
-  const [dispatchLocation, setDispatchLocation] = useState([])
+  const [dispatchLocation, setDispatchLocation] = useState([0,0])
   const [selectedPlace, setSelectedPlace] = useState(places[0])
 
   useEffect(()=>{
-    setClientInfo(prev =>({
-      ...prev,
-      coords: dispatchLocation
-    }))
+    handleAddressInfo({coords: dispatchLocation})
   }, [dispatchLocation])
 
-  console.log(clientInfo)
-
-  const handleFlyTo = (coords) => {
-    console.log('fly')
-    map.setView(coords, 17)
+  const handleFlyTo = (place) => {
+    setSelectedPlace(place)
+    map.setView(place.coords, 17)
   }
-
 
   return (
     <>
       <Box>
         {places.map(place => (
-          <Typography onClick={()=>handleFlyTo(place.coords)}>
+          <Typography key={place.place+place.coords[0]} onClick={()=>handleFlyTo(place)}>
             {place.place}
           </Typography>
         ))}
@@ -60,6 +54,8 @@ export const Map = () => {
       <MapContainer center={selectedPlace.coords} zoom={17} scrollWheelZoom={false} ref={setMap} >
         <TileLayer attribution='&copy; HERE 2019' url={`https://2.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/${style}/{z}/{x}/{y}/512/png8?apiKey=${here.apiKey}`} />
         <Marker position={selectedPlace.coords}></Marker>
+     
+        <Marker position={dispatchLocation}></Marker>
         <MapEvents setDispatchLocation={setDispatchLocation} />
       </MapContainer>
     </>

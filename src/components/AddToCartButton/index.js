@@ -18,8 +18,6 @@ export const AddToCartButton = ({ productToAdd, isAdded }) => {
     setCart(newCart)
   }
 
-  console.log(cart)
-
   return (
     <Button onClick={(e) => {
       e.stopPropagation()

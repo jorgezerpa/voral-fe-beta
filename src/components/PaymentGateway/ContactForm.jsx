@@ -3,18 +3,17 @@ import { TextField, Box, Button } from '@mui/material'
 import { Context } from '../../context/context'
 
 export const ContactForm = () => {
-  const { setClientInfo } = useContext(Context)
+  const { handleContactInfo } = useContext(Context)
   const name = useRef(null)
   const phone = useRef(null)
   const email = useRef(null)
 
   const handleChange = () => {
-    setClientInfo(prev =>({
-      ...prev,
+    handleContactInfo({
       name: name.current.value,
       phone: phone.current.value,
       email: email.current.value,
-    }))
+    })
   }
 
   return (

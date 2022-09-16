@@ -1,22 +1,28 @@
-import React, { useState, useContext, useRef } from 'react'
+import React, { useState, useContext, useRef, useEffect } from 'react'
 import { TextField, Box, Select, MenuItem } from '@mui/material'
 import { Map } from '../Map'
 import { Context } from '../../context/context'
 
 export const AdressForm = () => {
-  const { setClientInfo, clientInfo } = useContext(Context)
+  const { handleAddressInfo } = useContext(Context)
   const [showAddressForm, setShowAdressForm] = useState(true)
+  const [city, setCity] = useState('Mérida')
   const direction1 = useRef(null)
   const direction2 = useRef(null)
   const references = useRef(null)
 
+  //use effect  to handle select input change (setCity)
+  useEffect(()=>{
+    handleChange()
+  }, [city])
+
   const handleChange = () => {
-    setClientInfo(prev =>({
-      ...prev,
+    handleAddressInfo({
+      city: city,
       direction1: direction1.current.value,
       direction2: direction2.current.value,
       references: references.current.value,
-    }))
+    })
   }
 
   const toggleShowAddressForm = () => {
@@ -29,9 +35,9 @@ export const AdressForm = () => {
 
       <Box sx={{ display: showAddressForm ? 'block' : 'none' }}>
       <Select
-          value={clientInfo.city || 'Mérida'}
+          value={ city }
           label="ciudad"
-          onChange={(e)=>setClientInfo(prev=>({...prev, city: e.target.value}))}
+          onChange={(e) => setCity(e.target.value) }
         >
           <MenuItem value={'Mérida'}>Mérida</MenuItem>
           <MenuItem value={'Lagunillas'}>Lagunillas</MenuItem>
